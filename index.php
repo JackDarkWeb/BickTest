@@ -29,42 +29,21 @@
 <div class="container">
     <div class=" mt-4" id="form-div">
        <form method="post" action="" id="form">
-           <table>
-               <tr id="row-default">
-                   <td>
-                       <select name="field" class="custom-select my-1 mr-sm-2" id="field">
-                           <option selected>Field...</option>
-                           <option value="size">Size</option>
-                           <option value="forks">Forks</option>
-                           <option value="stars">Stars</option>
-                           <option value="followers">Followers</option>
-                       </select>
-                   </td>
-                   <td>
-                       <select name="operator" class="custom-select my-1 mr-sm-2" id="operator">
-                           <option selected>Operator...</option>
-                           <option value="+">Plus</option>
-                           <option value="=">Equal</option>
-                           <option value="-">Minus</option>
-                       </select>
-                   </td>
-                   <td>
-                       <input type="number" name="value" id="value" class="form-control my-1 mr-sm-2" placeholder="Value ..."/>
-                   </td>
-                   <td><button class="btn btn-danger" id="delete-default">Delete</button></td>
-               </tr>
+
+           <table id="table" style="">
+
            </table>
 
            <div id="hr"></div>
 
 
            <div class="mt-4">
-               <button class="btn btn-primary" id="apply">Apply</button>
+               <button type="submit"  class="btn btn-primary" id="apply">Apply</button>
                <button type="reset" class="btn btn-warning" id="clear">Clear</button>
                <button class="btn btn-success" id="add">Add Rule</button>
            </div>
 
-       </form
+       </form>
     </div>
 
     <div id="results"></div>
