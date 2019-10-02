@@ -26,7 +26,7 @@
 </head>
 <body>
 
-<div class="container col-md-6 offset-md-3">
+<div class="container">
     <h3 class="text-info">Test of the interview</h3>
 
     <div class="mt-4" id="form-div">
