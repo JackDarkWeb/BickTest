@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Bick Test of the interview</title>
 
     <style>
         #field, #operator, #value{
@@ -26,8 +26,11 @@
 </head>
 <body>
 
-<div class="container">
-    <div class=" mt-4" id="form-div">
+<div class="container col-md-6 offset-md-3">
+    <h3 class="text-info">Test of the interview</h3>
+
+    <div class="mt-4" id="form-div">
+
        <form method="post" action="" id="form">
 
            <table id="table" style="">
