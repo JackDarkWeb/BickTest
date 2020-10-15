@@ -11,43 +11,51 @@
     <title>Bick Test of the interview</title>
 
     <style>
-        #field, #operator, #value{
-            width: 150px;
-        }
 
-        #hr{
-            border: 0.5px solid gray;
-            width: 700px;
-        }
-        #add{
-            margin-left: 342px;
-        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h3 class="text-info">Test of the interview</h3>
-
-    <div class="mt-4" id="form-div">
-
-       <form method="post" action="" id="form">
-
-           <table id="table" style="">
-
-           </table>
-
-           <div id="hr"></div>
 
 
-           <div class="mt-4">
-               <button type="submit"  class="btn btn-primary" id="apply">Apply</button>
-               <button type="reset" class="btn btn-warning" id="clear">Clear</button>
-               <button class="btn btn-success" id="add">Add Rule</button>
-           </div>
+    <div class="">
 
-       </form>
+        <h3 class="text-info">Test of the interview</h3>
+
+        <h4>PHP + JS + HTML</h4>
+
+        <p class="mb-5">
+            Page for finding repositories on GitHub: you can set one or more rules <br/> and get a list of repositories
+            that match those rules.
+        </p>
+
+        <form method="post" action="" class="mb-3" novalidate id="form">
+
+            <table id="table" style="">
+
+            </table>
+
+            <div class="border-bottom" style="width: 600px"></div>
+
+
+            <div class="mt-4">
+                <button type="submit"  class="btn btn-primary" id="apply">Apply</button>
+                <button type="reset" class="btn btn-warning" id="clear">Clear</button>
+                <button class="btn btn-success" id="add" style="margin-left: 315px">Add Rule</button>
+            </div>
+
+        </form>
+
+        <p class="mt-5">
+            Fields:<br>
+            Field - dropdown list (size, forks, stars, followers)<br/>
+            Operator - dropdown list (more, less, equal)<br/>
+            Value - value (integer)
+        </p>
+
     </div>
+
 
     <div id="results"></div>
 

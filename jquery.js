@@ -1,6 +1,7 @@
 $(function () {
 
-    let i = 0;
+    let i = 0,
+        canApply = true;
 
     $(document).on('click', '#add, .remove, #apply', function (e) {
         e.preventDefault();
@@ -8,70 +9,146 @@ $(function () {
         switch (this.id) {
             case 'add':
                 i++;
-                const content = $(this).parents('#form').find('#table');
-                content.append(
-                    '<tr id="row'+ i +'">' +
-                        '<td>' +
-                            '<select name="field" class="custom-select my-1 mr-sm-2" id="field">' +
-                                '<option selected>Field...</option>' +
-                                '<option value="size">Size</option>' +
-                                '<option value="forks">Forks</option>' +
-                                ' <option value="stars">Stars</option>' +
-                                '<option value="followers">Followers</option>' +
-                            '</select>' +
-                        '</td>' +
-
-                        '<td>' +
-                            '<select name="operator" class="custom-select my-1 mr-sm-2" id="operator">' +
-                                '<option selected>Operator...</option>' +
-                                '<option value="+">Plus</option>' +
-                                '<option value="=">Equal</option>' +
-                                '<option value="-">Minus</option>' +
-                            '</select>' +
-                        '</td>' +
-
-                        '<td>' +
-                            ' <input type="number" name="value" id="value" class="form-control my-1 mr-sm-2" placeholder="Value ..."/>' +
-                        '</td>'+
-
-                        '<td><button id="'+ i +'" class="btn btn-danger remove">Delete</button></td>' +
-
-                    '</tr>'
-                );
+                renderRule(this, i);
                 break;
 
             case 'apply':
-
-                const form =  $('#form');
-                const field = form.find('#field').val();
-                const operator = form.find('#operator').val();
-                const value = form.find('#value').val();
-
-                let json = {
-                    field: field,
-                    operator:operator,
-                    value:value
-                };
-                $.ajax({
-                    url: 'trait.php',
-                    method: 'POST',
-                    dataType: 'json',
-                    async: true,
-                    cache:false,
-                    data:json,
-                    success: function (response) {
-
-                    }
-
-                });
+                transmissionRequest(i);
                 break;
 
             default:
-                let id_remove = $(this).attr('id');
-                $('#row'+ id_remove +'').remove();
+                removeRule(this);
                 break;
         }
     });
+
+
+
+    function transmissionRequest(i){
+        const form =  $('#form');
+        let data   = new Object(),
+            query  = '';
+
+        //let len = form.find('input').length;
+        for(let x = 1; x <= i; x++){
+            query = `${form.find(`#field${x}`).val()} ${form.find(`#operator${x}`).val()} ${form.find(`#value${x}`).val()}`;
+            data[`query_${x}`] = query;
+        }
+        if(i){
+            if(!canApply) return ;
+            canApply = false;
+            requestAjax('POST', 'request.php', treatment, data);
+            setTimeout(function () {
+                canApply = true;
+            }, 8000);
+        }else{
+            alert('Please add at least one rule');
+        }
+
+    }
+
+    function treatment(response) {
+
+    }
+
+    function removeRule(btn) {
+        let id_btnRemove;
+        id_btnRemove = $(btn).attr('id');
+        $(`#row${id_btnRemove}`).remove();
+    }
+
+    function renderRule(btn, i) {
+        const content = $(btn).parents('#form').find('#table');
+        content.append(
+            `
+                    <tr id="row${i}">
+                       <td>
+                           <div class="my-1" style="width: 150px">
+                                <select id="field${i}" class="form-control" required>
+                                    <option value="">Field...</option>
+                                    <option value="size">Size</option>
+                                    <option value="forks">Forks</option>
+                                    <option value="stars">Stars</option>
+                                    <option value="followers">Followers</option>
+                                </select>
+                           </div>
+                       </td>
+                       <td>
+                           <div class="my-1" style="width: 150px">
+                                <select id="operator${i}" class="form-control" required>
+                                    <option value="">Operator...</option>
+                                    <option value=">">Plus</option>
+                                    <option value="=">Equal</option>
+                                    <option value="<">Minus</option>
+                                </select>
+                           </div>
+                       </td>
+                       <td>
+                           <div class="my-1" style="width: 150px">
+                                <input type="text" class="form-control" id="value${i}" placeholder="Value" required>
+                           </div>
+                       </td>
+                     
+                       <td>
+                           <div class="col-auto my-1">
+                               <button id="${i}" class="btn btn-danger remove">Delete</button>
+                           </div>
+                       </td>
+                    </tr>     
+                    `
+        );
+    }
+
+    function requestAjax(method, url, dynamic_function, data = []) {
+
+        if(method === 'GET' || method === 'get'){
+            fetch(
+                url,
+                {
+                    headers: {
+                        "Content-Type":"application/json",
+                        "Accept":"application/json, text-plain, */*",
+                        "X-Requested-With":"XMLHttpRequest",
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: method,
+                }
+            ).then(response => response.json())
+
+                .then(response => {
+
+                    dynamic_function(response);
+
+                }).catch(error => {
+                console.log(error)
+            });
+
+        }else{
+
+            fetch(
+                url,
+                {
+                    headers: {
+                        "Content-Type":"application/json",
+                        "Accept":"application/json, text-plain, */*",
+                        "X-Requested-With":"XMLHttpRequest",
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: method,
+                    body: JSON.stringify(data),
+                }
+            ).then(response => response.json())
+
+                .then(response => {
+
+                    dynamic_function(response);
+
+                }).catch(error => {
+                console.log(error)
+            });
+        }
+
+    }
 
 
 
