@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -30,7 +31,7 @@
             that match those rules.
         </p>
 
-        <form method="post" action="" class="mb-3" novalidate id="form">
+        <form method="post" action="/treatment.php" class="mb-3" novalidate id="form">
 
             <table id="table" style="">
 

@@ -22,8 +22,6 @@ $(function () {
         }
     });
 
-
-
     function transmissionRequest(i){
         const form =  $('#form');
         let data   = new Object(),
@@ -37,13 +35,19 @@ $(function () {
         if(i){
             if(!canApply) return ;
             canApply = false;
-            requestAjax('POST', 'request.php', treatment, data);
+            //ajaxPost('/treatment.php', data, func_callback, true);
+
+            requestAjax('POST', 'treatment.php', treatment, data);
             setTimeout(function () {
                 canApply = true;
             }, 8000);
         }else{
             alert('Please add at least one rule');
         }
+
+    }
+
+    function func_callback(){
 
     }
 
@@ -99,6 +103,27 @@ $(function () {
         );
     }
 
+    function ajaxPost(url, data, callback, isJson = false) {
+        let req = new XMLHttpRequest();
+        req.open('POST', url);
+        req.addEventListener('load', function () {
+            if(req.status >= 200 && req.status < 400){
+                callback(req.responseText);
+            }else{
+                console.error(`${req.status} ${req.statusText} ${url}`);
+            }
+        });
+        req.addEventListener('error', function () {
+            console.error(`Error network with url  ${url}`);
+        });
+
+        if(isJson){
+            req.setRequestHeader("Content-Type", "application/json");
+            data = JSON.stringify(data);
+        }
+        req.send(data);
+    }
+
     function requestAjax(method, url, dynamic_function, data = []) {
 
         if(method === 'GET' || method === 'get'){
@@ -109,7 +134,7 @@ $(function () {
                         "Content-Type":"application/json",
                         "Accept":"application/json, text-plain, */*",
                         "X-Requested-With":"XMLHttpRequest",
-                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
+                        "X-CSRF-TOKEN": '', //$('meta[name="csrf-token"]').attr('content')
                     },
                     method: method,
                 }
@@ -132,7 +157,7 @@ $(function () {
                         "Content-Type":"application/json",
                         "Accept":"application/json, text-plain, */*",
                         "X-Requested-With":"XMLHttpRequest",
-                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
+                        "X-CSRF-TOKEN": '',//$('meta[name="csrf-token"]').attr('content')
                     },
                     method: method,
                     body: JSON.stringify(data),
